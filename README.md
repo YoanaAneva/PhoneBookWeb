@@ -1,6 +1,4 @@
-# Project Name
-
-📚 Phone Book
+# Project - 📚 Phone Book
 
 ## Description
 
