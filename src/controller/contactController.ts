@@ -93,6 +93,19 @@ export const deleteContactById = async (req: Request, res: Response) => {
     }
 };
 
+export const deleteContactsByUser = async (req: Request, res: Response) => {
+    try { 
+        const result = await dbMethods.deleteContactsByUser(req.params.username);
+        console.log(result.deletedCount);
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ error: `No contacts found with username: ${req.params.username}` });
+        }
+        return res.status(204).send();
+    } catch (error) {
+        handleErrors(res, error);
+    }
+}
+
 function handleErrors(res: Response, error) {
     if(error instanceof mongoose.Error.CastError) {
         return res.status(400).json({ error: 'Invalid id format' });

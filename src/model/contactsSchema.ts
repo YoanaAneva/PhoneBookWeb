@@ -38,5 +38,6 @@ export const dbMethods = {
   getAllNumbersForContact: (id: string) => ContactModel.findOne({ _id: id }).then(contact => contact.phoneNumbers),
   addContact: (values: Record<string, any>) => new ContactModel(values).save().then((contact) => contact.toObject()),
   updateContactById: (id: string, values: Record<string, any>) => ContactModel.findByIdAndUpdate(id, values, {new: true}),
-  deleteContactById: (id: string) => ContactModel.findOneAndDelete({ _id: id })
+  deleteContactById: (id: string) => ContactModel.findOneAndDelete({ _id: id }),
+  deleteContactsByUser: (username: string) => ContactModel.deleteMany({ user_username: username})
 };

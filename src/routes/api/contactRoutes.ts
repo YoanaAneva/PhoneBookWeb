@@ -1,7 +1,8 @@
 const express = require('express');
 
 import { getAllContacts, getContactByIdr, getAllNumbersForContact, getContactsByUser,
-         addContact, updateContactById, partiallyUpdateContactById,  deleteContactById } from '../../controller/contactController';
+         addContact, updateContactById, partiallyUpdateContactById,  deleteContactById, 
+         deleteContactsByUser} from '../../controller/contactController';
 
 import { validateContact } from '../../middleware/contactValidation';
 
@@ -19,6 +20,8 @@ router.route('/:id')
 
 router.route('/:id/phoneNumbers').get(getAllNumbersForContact)
 
-router.route('/user/:username').get(getContactsByUser)
+router.route('/user/:username')
+    .get(getContactsByUser)
+    .delete(deleteContactsByUser)
 
 module.exports = router;
