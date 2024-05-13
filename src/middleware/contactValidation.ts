@@ -1,5 +1,6 @@
 const Joi = require('joi');
 import { Request, Response, NextFunction } from 'express';
+import { ContactModel } from '../model/contactsSchema'
 
 export const validateContact = (req: Request, res: Response, next: NextFunction): void | Response => {
     addDefaultNumberType(req.body);
@@ -28,6 +29,18 @@ export const validateContact = (req: Request, res: Response, next: NextFunction)
     const { error } = contactSchema.validate(req.body);
     if (error) {
         return res.status(400).json({ error : error.details[0].message});
+    }
+    next();
+}
+
+export const validatePatchRequest = (req: Request, res: Response, next: NextFunction) => {
+    const schemaFields = Object.keys(ContactModel.schema.paths);
+    const requestBodyKeys = Object.keys(req.body);
+
+    const invalidFields = requestBodyKeys.filter(key => !schemaFields.includes(key));
+
+    if (invalidFields.length > 0) {
+        return res.status(400).json({ error: `Invalid fields: ${invalidFields.join(', ')}` });
     }
     next();
 }

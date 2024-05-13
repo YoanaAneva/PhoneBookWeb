@@ -4,7 +4,7 @@ import { getAllContacts, getContactByIdr, getAllNumbersForContact, getContactsBy
          addContact, updateContactById, partiallyUpdateContactById,  deleteContactById, 
          deleteContactsByUser} from '../../controller/contactController';
 
-import { validateContact } from '../../middleware/contactValidation';
+import { validateContact, validatePatchRequest } from '../../middleware/contactValidation';
 
 const router = express.Router();
 
@@ -15,7 +15,7 @@ router.route('/')
 router.route('/:id')
     .get(getContactByIdr)
     .put(validateContact, updateContactById)
-    .patch(partiallyUpdateContactById)
+    .patch(validatePatchRequest, partiallyUpdateContactById)
     .delete(deleteContactById)
 
 router.route('/:id/phoneNumbers').get(getAllNumbersForContact)
